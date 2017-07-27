@@ -168,23 +168,27 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 == Bonus: Build a concourse pipeline and Deploy to PCF Dev
 
 == Prerequisites
-. VirtualBox: https://www.virtualbox.org/wiki/Downloads[Install Instructions]
-. Vagrant: Install Instructions](http://concourse.ci/vagrant.html[Install Instructions]
-. Fly CLI: Install Instructions](http://concourse.ci/hello-world.html[Install Instructions]
-. PCF DEV: Install Instructions](https://docs.pivotal.io/pcf-dev/#installing[Install Instructions]
-. GitHub account 
+1. VirtualBox: https://www.virtualbox.org/wiki/Downloads[Install Instructions]
+
+2. Vagrant: Install Instructions](http://concourse.ci/vagrant.html[Install Instructions]
+
+3. Fly CLI: Install Instructions](http://concourse.ci/hello-world.html[Install Instructions]
+
+4. PCF DEV: Install Instructions](https://docs.pivotal.io/pcf-dev/#installing[Install Instructions]
+
+5. GitHub account 
 
 == Steps
-. Update manifest file to:
+1. Update manifest file to:
 `manifest.yml`
 [source,yaml]
 ----
 include::complete/manifest.yml]
 ----
 
-. Create a GitHub repository: [Create GitHub Repository Instructions](https://help.github.com/articles/creating-a-new-repository/)
+2. Create a GitHub repository: [Create GitHub Repository Instructions](https://help.github.com/articles/creating-a-new-repository/)
 
-. Init, add, commit, remote, and push code to Repo
+3. Init, add, commit, remote, and push code to Repo
 	```
 	echo "# gs-rest-service-complete" >> README.md
 	git init
@@ -194,86 +198,86 @@ include::complete/manifest.yml]
 	git push -u origin master
 	```
 
-. Create a `ci` folder under the root project directory
+4. Create a `ci` folder under the root project directory
 
-. Create a `tasks` folder under `ci` 
+5. Create a `tasks` folder under `ci` 
 
-. Create `ci/pipeline.yml` and update GitHub uri with your GitHub account
-`ci/pipeline.yml`
-[source,yaml]
-----
-include::complete/ci/pipeline.yml]
-----
+6. Create `ci/pipeline.yml` and update GitHub uri with your GitHub account
+	`ci/pipeline.yml`
+	[source,yaml]
+	----
+	include::complete/ci/pipeline.yml]
+	----
 
-. Create `ci/pipeline_params.yml` file and input your info
-`ci/pipeline_params.yml`
-[source,yaml]
-----
-include::complete/ci/pipeline_params.yml]
-----
+7. Create `ci/pipeline_params.yml` file and input your info
+	`ci/pipeline_params.yml`
+	[source,yaml]
+	----
+	include::complete/ci/pipeline_params.yml]
+	----
 
-. Create `ci/tasks/package.yml`:
-`ci/tasks/package.yml`
-[source,yaml]
-----
-include::complete/ci/tasks/package.yml]
-----
+8. Create `ci/tasks/package.yml`:
+	`ci/tasks/package.yml`
+	[source,yaml]
+	----
+	include::complete/ci/tasks/package.yml]
+	----
 
-. Create `ci/tasks/package.sh` file
-`ci/tasks/package.sh`
-[source,sh]
-----
-include::complete/ci/tasks/package.sh]
-----
+9. Create `ci/tasks/package.sh` file
+	`ci/tasks/package.sh`
+	[source,sh]
+	----
+	include::complete/ci/tasks/package.sh]
+	----
 
-. Directory structure after adding above folders and files
+10. Directory structure after adding above folders and files
 
-----	
-.
-├── README.md
-├── ci
-│   ├── pipeline.yml
-│   ├── pipeline_params_template.yml
-│   └── tasks
-│       ├── package.sh
-│       └── package.yml
-├── manifest.yml
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
-└── src
-    ├── main
-    │   └── java
-    │       └── hello
-    │           ├── Application.java
-    │           ├── Greeting.java
-    │           └── GreetingController.java
-    └── test
-        └── java
-            └── hello
-                └── GreetingControllerTests.java
-----
+	----	
+	.
+	├── README.md
+	├── ci
+	│   ├── pipeline.yml
+	│   ├── pipeline_params_template.yml
+	│   └── tasks
+	│       ├── package.sh
+	│       └── package.yml
+	├── manifest.yml
+	├── mvnw
+	├── mvnw.cmd
+	├── pom.xml
+	└── src
+	    ├── main
+	    │   └── java
+	    │       └── hello
+	    │           ├── Application.java
+	    │           ├── Greeting.java
+	    │           └── GreetingController.java
+	    └── test
+	        └── java
+	            └── hello
+	                └── GreetingControllerTests.java
+	----
 
-. Stage, commit, and push updates: 
+11. Stage, commit, and push updates: 
 ----
-`git add . && git commit -am "create ci pipeline files" && git push`
-----
-
-. Login to concourse via FLY: 
-----
-	- `fly -t lite login -c http://192.168.100.4:8080/` 
+git add . && git commit -am "create ci pipeline files" && git push
 ----
 
-. Set the pipeline up with the following fly command:
+12. Login to concourse via FLY: 
 ----
-	- `fly -t lite set-pipeline -p gs-rest-service-concourse -c ci/pipeline.yml --non-interactive --load-vars-from ci/pipeline_params_template.yml`
-----
-
-. Unpause the pipeline with the following fly command:
-----
-	- `fly -t lite unpause-pipeline -p gs-rest-service-complete `
+fly -t lite login -c http://192.168.100.4:8080/
 ----
 
-. Validate that the concourse package job completed successfully through the browser: http://192.168.100.4:8080/
+13. Set the pipeline up with the following fly command:
+----
+fly -t lite set-pipeline -p gs-rest-service-concourse -c ci/pipeline.yml --non-interactive --load-vars-from ci/pipeline_params_template.yml
+----
+
+14. Unpause the pipeline with the following fly command:
+----
+fly -t lite unpause-pipeline -p gs-rest-service-complete
+----
+
+15. Validate that the concourse package job completed successfully through the browser: http://192.168.100.4:8080/
 
 
