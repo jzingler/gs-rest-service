@@ -3,7 +3,7 @@ resources:
   - name: source-code
     type: git
     source:
-      uri: https://github.com/jzingler/gs-rest-service-concourse.git
+      uri: https://github.com/jzingler/gs-rest-service.git
       branch: master  
   - name: cf-push-packaged-app
     type: cf
@@ -22,7 +22,7 @@ jobs:
       trigger: true
     - task: package
       privileged: true
-      file: source-code/ci/tasks/package.yml       
+      file: source-code/complete/ci/tasks/package.yml       
     - put: cf-push-packaged-app
       params:
         manifest: build-output/manifest.yml 
