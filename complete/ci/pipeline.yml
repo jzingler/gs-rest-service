@@ -4,7 +4,7 @@ resources:
     type: git
     source:
       uri: https://github.com/jzingler/gs-rest-service.git
-      branch: master  
+      branch: feature/add-concourse-pipeline  
   - name: cf-push-packaged-app
     type: cf
     source:
