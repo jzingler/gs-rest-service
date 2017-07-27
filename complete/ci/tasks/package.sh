@@ -7,4 +7,4 @@ pushd source-code/complete
 popd
 
 cp source-code/complete/manifest.yml  build-output/.
-cp source-code/complete/target/gs-rest-service-concourse-0.1.0.jar  build-output/.
+cp source-code/complete/target/gs-rest-service-0.1.0.jar  build-output/.
