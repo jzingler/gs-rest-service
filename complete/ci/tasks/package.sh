@@ -2,7 +2,7 @@
 
 set -e -x
 
-pushd source-code
+pushd source-code/complete
 	mvn clean package
 popd
 
