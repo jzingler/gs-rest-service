@@ -13,5 +13,7 @@ outputs:
   - name: build-output
   
 run:
-  path: source-code/complete/ci/tasks/package.sh
+  path: /bin/bash
+  args: 
+    - source-code/complete/ci/tasks/package.sh
  
