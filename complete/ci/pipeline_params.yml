@@ -1,0 +1,5 @@
+cf_api: https://api.local.pcfdev.io
+cf_org: pcfdev-org
+cf_space: pcfdev-space
+cf_username: admin
+cf_password: admin

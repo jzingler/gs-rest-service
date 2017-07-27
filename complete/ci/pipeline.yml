@@ -1,0 +1,28 @@
+---
+resources:
+  - name: source-code
+    type: git
+    source:
+      uri: https://github.com/jzingler/gs-rest-service-concourse.git
+      branch: master  
+  - name: cf-push-packaged-app
+    type: cf
+    source:
+      api: {{cf_api}}
+      organization: {{cf_org}}
+      space: {{cf_space}}
+      username: {{cf_username}}
+      password: {{cf_password}}
+      skip_cert_check: true
+      
+jobs:
+  - name: package
+    plan:
+    - get: source-code
+      trigger: true
+    - task: package
+      privileged: true
+      file: source-code/ci/tasks/package.yml       
+    - put: cf-push-packaged-app
+      params:
+        manifest: build-output/manifest.yml 
