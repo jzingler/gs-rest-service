@@ -18,5 +18,4 @@ caches:
 run:
   path: /bin/bash
   args: 
-    - source-code/complete/ci/tasks/package.sh
- 
+    - source-code/complete/ci/tasks/package.sh 
