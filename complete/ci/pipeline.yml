@@ -25,4 +25,4 @@ jobs:
       file: source-code/complete/ci/tasks/package.yml       
     - put: cf-push-packaged-app
       params:
-        manifest: build-output/manifest.yml 
+        manifest: build-output/manifest.yml
