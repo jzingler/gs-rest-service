@@ -3,4 +3,4 @@
   - name: gs-rest-service-complete
     memory: 256M
     instances: 1
-    path: gs-rest-service-complete-0.1.0.jar
+    path: gs-rest-service-0.1.0.jar
