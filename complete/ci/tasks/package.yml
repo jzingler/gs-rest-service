@@ -13,7 +13,7 @@ outputs:
   - name: build-output
   
 caches: 
-  - path: source-code/complete/.m2
+  - path: .m2/repository
   
 run:
   path: /bin/bash
