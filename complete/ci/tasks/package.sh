@@ -3,7 +3,7 @@
 set -e -x
 
 pushd source-code/complete
-	mvn clean package
+	mvn -s ci/tasks/settings.xml clean package
 popd
 
 cp source-code/complete/manifest.yml  build-output/.

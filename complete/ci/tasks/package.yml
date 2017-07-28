@@ -12,6 +12,9 @@ inputs:
 outputs:
   - name: build-output
   
+caches: 
+  path: .m2
+  
 run:
   path: /bin/bash
   args: 
