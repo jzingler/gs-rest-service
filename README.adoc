@@ -170,16 +170,17 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 == Prerequisites
 1. VirtualBox: https://www.virtualbox.org/wiki/Downloads[Install Instructions]
 
-2. Vagrant: Install Instructions](http://concourse.ci/vagrant.html[Install Instructions]
+2. Vagrant: http://concourse.ci/vagrant.html[Install Instructions]
 
-3. Fly CLI: Install Instructions](http://concourse.ci/hello-world.html[Install Instructions]
+3. Fly CLI: http://concourse.ci/hello-world.html[Install Instructions]
 
-4. PCF DEV: Install Instructions](https://docs.pivotal.io/pcf-dev/#installing[Install Instructions]
+4. PCF DEV: https://docs.pivotal.io/pcf-dev/#installing[Install Instructions]
 
 5. GitHub account 
 
 == Steps
 1. Update manifest file to:
+
 `manifest.yml`
 [source,yaml]
 ----
@@ -188,75 +189,103 @@ include::complete/manifest.yml]
 
 2. Create a GitHub repository: [Create GitHub Repository Instructions](https://help.github.com/articles/creating-a-new-repository/)
 
-3. Init, add, commit, remote, and push code to Repo
-	```
-	echo "# gs-rest-service-complete" >> README.md
-	git init
-	git add README.md
-	git commit -m "first commit"
-	git remote add origin https://github.com/<ADD GITHUB ACCT>/gs-rest-service-complete.git
-	git push -u origin master
-	```
+3. Init, add, commit, remote, and push code to your GitHub repository created in Step 2:
+----
+git init
+git add .	
+git commit -m "first commit"
+git remote add origin https://github.com/<ADD GITHUB ACCT>/gs-rest-service-complete.git
+git push -u origin master
+----
 
 4. Create a `ci` folder under the root project directory
 
 5. Create a `tasks` folder under `ci` 
 
 6. Create `ci/pipeline.yml` and update GitHub uri with your GitHub account
-	`ci/pipeline.yml`
-	[source,yaml]
-	----
-	include::complete/ci/pipeline.yml]
-	----
+	
+[source,yaml]
+----
+---
+resources: 
+  - name: source-code  <1>
+    type: git
+    source:
+      uri: https://github.com/jzingler/gs-rest-service.git
+      branch: feature/add-concourse-pipeline  
+  - name: cf-push-packaged-app
+    type: cf
+    source:
+      api: {{cf_api}}
+      organization: {{cf_org}}
+      space: {{cf_space}}
+      username: {{cf_username}}
+      password: {{cf_password}}
+      skip_cert_check: true
+      
+jobs:
+  - name: package
+    plan:
+    - get: source-code
+      trigger: true
+    - task: package
+      privileged: true
+      file: source-code/complete/ci/tasks/package.yml       
+    - put: cf-push-packaged-app
+      params:
+        manifest: build-output/manifest.yml
+----
 
 7. Create `ci/pipeline_params.yml` file and input your info
-	`ci/pipeline_params.yml`
-	[source,yaml]
-	----
-	include::complete/ci/pipeline_params.yml]
-	----
+	
+[source,yaml]
+----
+include::complete/ci/pipeline_params.yml]
+----
 
 8. Create `ci/tasks/package.yml`:
-	`ci/tasks/package.yml`
-	[source,yaml]
-	----
-	include::complete/ci/tasks/package.yml]
-	----
+	
+`ci/tasks/package.yml`
+[source,yaml]
+----
+include::complete/ci/tasks/package.yml]
+----
 
-9. Create `ci/tasks/package.sh` file
-	`ci/tasks/package.sh`
-	[source,sh]
-	----
-	include::complete/ci/tasks/package.sh]
-	----
+9. Create `ci/tasks/package.sh` file:
+
+`ci/tasks/package.sh`
+[source,sh]
+----
+include::complete/ci/tasks/package.sh]
+----
 
 10. Directory structure after adding above folders and files
 
-	----	
-	.
-	├── README.md
-	├── ci
-	│   ├── pipeline.yml
-	│   ├── pipeline_params_template.yml
-	│   └── tasks
-	│       ├── package.sh
-	│       └── package.yml
-	├── manifest.yml
-	├── mvnw
-	├── mvnw.cmd
-	├── pom.xml
-	└── src
-	    ├── main
-	    │   └── java
-	    │       └── hello
-	    │           ├── Application.java
-	    │           ├── Greeting.java
-	    │           └── GreetingController.java
-	    └── test
-	        └── java
-	            └── hello
-	                └── GreetingControllerTests.java
-	----
+----	
+.
+├── README.md
+├── ci
+│   ├── pipeline.yml
+│   ├── pipeline_params.yml
+│   └── tasks
+│       ├── package.sh
+│       └── package.yml
+├── manifest.yml
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── src
+    ├── main
+    │   └── java
+    │       └── hello
+    │           ├── Application.java
+    │           ├── Greeting.java
+    │           └── GreetingController.java
+    └── test
+        └── java
+            └── hello
+                └── GreetingControllerTests.java
+----
 
 11. Stage, commit, and push updates: 
 ----
@@ -270,7 +299,7 @@ fly -t lite login -c http://192.168.100.4:8080/
 
 13. Set the pipeline up with the following fly command:
 ----
-fly -t lite set-pipeline -p gs-rest-service-concourse -c ci/pipeline.yml --non-interactive --load-vars-from ci/pipeline_params_template.yml
+fly -t lite set-pipeline -p gs-rest-service-complete -c ci/pipeline.yml --non-interactive --load-vars-from ci/pipeline_params.yml
 ----
 
 14. Unpause the pipeline with the following fly command:
