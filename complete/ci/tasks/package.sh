@@ -3,7 +3,7 @@
 set -e -x
 
 pushd source-code/complete
-	mvn clean package
+	mvn -Dmaven.repo.local=.m2 clean package
 popd
 
 cp source-code/complete/manifest.yml  build-output/.
