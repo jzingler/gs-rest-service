@@ -170,7 +170,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 == Prerequisites
 1. VirtualBox: https://www.virtualbox.org/wiki/Downloads[Install Instructions]
 
-2. Vagrant: http://concourse.ci/vagrant.html[Install Instructions]
+2. Concourse Docker: http://concourse.ci/docker-repository.html[Install Instructions]
 
 3. Fly CLI: http://concourse.ci/hello-world.html[Install Instructions]
 

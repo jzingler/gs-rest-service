@@ -51,4 +51,9 @@ public class GreetingControllerTests {
                 .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
     }
 
+    @Test
+    public void noParamGreetingTesthouldReturnDefaultMessage() throws Exception {
+        this.mockMvc.perform(get("/greeting-test")).andDo(print()).andExpect(status().isOk());
+    }
+
 }
